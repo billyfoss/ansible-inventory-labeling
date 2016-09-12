@@ -1,0 +1,11 @@
+---
+
+- hosts: all
+  gather_facts: false
+  tasks:
+    - name: remove hosts from inventory label groups
+      replace: 
+        dest=inventory/inventory-labels
+        regexp='{{inventory_hostname}}\n'
+      delegate_to: localhost
+

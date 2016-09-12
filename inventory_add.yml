@@ -1,0 +1,22 @@
+---
+
+- hosts: all
+  gather_facts: false
+  vars:
+    group_list: ["test","web","aws_dc1"]
+  tasks:
+    - name: label hosts as part of inventory groups
+      ini_file: 
+        dest=inventory/inventory-labels
+        section={{item}}
+        option={{inventory_hostname}}
+        value='dummy-value'
+      with_items: '{{group_list}}'
+      delegate_to: localhost
+      
+    - replace: 
+        dest=inventory/inventory-labels
+        regexp=' = dummy-value'
+      with_items: '{{group_list}}'
+      delegate_to: localhost
+
